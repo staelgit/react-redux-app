@@ -53,9 +53,9 @@ export const loadTasks = () => async (dispatch) => {
   }
 };
 
-export const taskCreated = () => async (dispatch) => {
+export const taskCreated = (newTaskData) => async (dispatch) => {
   try {
-    const data = await todosService.createTask();
+    const data = await todosService.createTask(newTaskData);
     dispatch(create(data));
   } catch (error) {
     dispatch(setError(error.message));
