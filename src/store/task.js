@@ -24,6 +24,11 @@ const taskSlice = createSlice({
     remove(state, action) {
       state.entities = state.entities.filter((t) => t.id !== action.payload.id);
     },
+    create(state, action) {
+      state.entities.push(action.payload);
+      state.isLoading = false;
+    },
+
     taskRequested(state) {
       state.isLoading = true;
     },
@@ -34,7 +39,8 @@ const taskSlice = createSlice({
 });
 
 const { actions, reducer: taskReducer } = taskSlice;
-const { update, remove, received, taskRequested, taskRequestFailed } = actions;
+const { update, remove, create, received, taskRequested, taskRequestFailed } =
+  actions;
 
 export const loadTasks = () => async (dispatch) => {
   dispatch(taskRequested());
@@ -42,13 +48,21 @@ export const loadTasks = () => async (dispatch) => {
     const data = await todosService.fetch();
     dispatch(received(data));
   } catch (error) {
-    console.log(error);
-    dispatch(taskRequestFailed()); // тут я сам подчистил аргументы
+    dispatch(taskRequestFailed());
     dispatch(setError(error.message));
   }
 };
 
-export const completeTask = (id) => (dispatch /*getState*/) => {
+export const taskCreated = () => async (dispatch) => {
+  try {
+    const data = await todosService.createTask();
+    dispatch(create(data));
+  } catch (error) {
+    dispatch(setError(error.message));
+  }
+};
+
+export const completeTask = (id) => (dispatch) => {
   dispatch(update({ id, completed: true }));
 };
 
