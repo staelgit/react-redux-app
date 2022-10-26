@@ -9,10 +9,10 @@ const todosService = {
     });
     return data;
   },
-  createTask: async (newTaskData) => {
+  create: async (payload) => {
     const { data } = await httpService.post(todosEndpoint, {
       method: "POST",
-      body: JSON.stringify(newTaskData),
+      body: JSON.stringify(payload),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },

@@ -5,7 +5,7 @@ import { Provider, useSelector, useDispatch } from "react-redux";
 import {
   titleChanged,
   taskDeleted,
-  taskCreated,
+  createTask,
   completeTask,
   getTasks,
   getTasksLoadingStatus,
@@ -35,12 +35,12 @@ const App = () => {
 
   const newTaskData = {
     userId: 1,
-    title: "excepturi deleniti adipisci voluptatem et neque optio illum ad",
+    title: "Some New Task",
     completed: false,
   };
 
-  const createTask = (newTaskData) => {
-    dispatch(taskCreated(newTaskData));
+  const addNewTask = (newTaskData) => {
+    dispatch(createTask(newTaskData));
   };
 
   if (isLoading) return <h1>Loading</h1>;
@@ -51,7 +51,7 @@ const App = () => {
     <>
       {" "}
       <h1>App</h1>
-      <button onClick={() => createTask(newTaskData)}>Create task</button>
+      <button onClick={() => addNewTask(newTaskData)}>Create task</button>
       <ul>
         {state.map((el) => (
           <li key={el.id}>
